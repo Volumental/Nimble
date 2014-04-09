@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nimble", "Nimble\Nimble.csproj", "{ED79D033-53F8-4F60-BF64-77E200DD0589}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{2E4BA743-D9A6-4EC9-82D8-BEF3FCD38F28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{ED79D033-53F8-4F60-BF64-77E200DD0589}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED79D033-53F8-4F60-BF64-77E200DD0589}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED79D033-53F8-4F60-BF64-77E200DD0589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E4BA743-D9A6-4EC9-82D8-BEF3FCD38F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E4BA743-D9A6-4EC9-82D8-BEF3FCD38F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E4BA743-D9A6-4EC9-82D8-BEF3FCD38F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E4BA743-D9A6-4EC9-82D8-BEF3FCD38F28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
