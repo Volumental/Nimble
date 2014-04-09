@@ -4,7 +4,7 @@ namespace Nimble.Native
 {
     internal class OpenNI2
     {
-        [DllImport("OpenNI2")]
-        public static extern void Initialize();
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Status oniInitialize(int version);
     }
 }

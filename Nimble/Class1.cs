@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Nimble
 {
-    public class Class1
+    public enum Status
     {
+        Ok = 0,
+        Error = 1,
+        NotImplemented = 2,
+        NotSupported = 3,
+        BadParameter = 4,
+        OutOfFlow = 5,
+        NoDevice = 6,
+        TimeOut = 102,
+    }
+
+    public class OpenNI
+    {
+        public void Initialize()
+        {
+            Native.OpenNI2.oniInitialize(2001);
+        }
     }
 }
