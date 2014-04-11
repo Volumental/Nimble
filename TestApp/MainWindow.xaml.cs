@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Nimble;
+using System.Windows;
 
 namespace TestApp
 {
@@ -7,6 +8,8 @@ namespace TestApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private OpenNI _openni;
+
         public MainWindow()
         {
             InitializeComponent();            
@@ -14,8 +17,13 @@ namespace TestApp
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var openni = new Nimble.OpenNI();
-            openni.Initialize();
+            _openni = new Nimble.OpenNI();
+            _openni.Initialize();
+        }
+
+        private void Window_Closed(object sender, System.EventArgs e)
+        {
+            _openni.Shutdown();
         }
     }
 }

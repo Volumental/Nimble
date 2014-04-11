@@ -6,5 +6,8 @@ namespace Nimble.Native
     {
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Status oniInitialize(int version);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void oniShutdown();
     }
 }

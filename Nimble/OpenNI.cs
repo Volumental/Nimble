@@ -17,7 +17,11 @@ namespace Nimble
     {
         public void Initialize()
         {
-            Native.OpenNI2.oniInitialize(2001);
+            Native.OpenNI2.oniInitialize(2001); // version 2.1
+        }
+        public void Shutdown()
+        {
+            Native.OpenNI2.oniShutdown();
         }
     }
 }
