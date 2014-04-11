@@ -1,5 +1,6 @@
 ﻿using Nimble.Native;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -24,18 +25,11 @@ namespace Nimble
                 int listLength;
                 OpenNI2.oniGetDeviceList(out list, out listLength);
 
-                var result = new List<DeviceInfo>();
-
-                IntPtr tmp = list;
-                for (int i = 0; i < listLength; i++)
-                {
-                    OniDeviceInfo deviceInfo = (OniDeviceInfo)Marshal.PtrToStructure(tmp, typeof(OniDeviceInfo));
-                    result.Add(new DeviceInfo(deviceInfo));
-                    tmp += Marshal.SizeOf(deviceInfo);
-                }
+                var devices = Marshaller.EnumerateStructArray<OniDeviceInfo>(list, listLength).
+                    Select(x => new DeviceInfo(x)).ToList();
 
                 OpenNI2.oniReleaseDeviceList(list);
-                return result;
+                return devices;
             }
         }
     }
