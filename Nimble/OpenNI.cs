@@ -1,27 +1,42 @@
-﻿
+﻿using Nimble.Native;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+
 namespace Nimble
 {
-    public enum Status
-    {
-        Ok = 0,
-        Error = 1,
-        NotImplemented = 2,
-        NotSupported = 3,
-        BadParameter = 4,
-        OutOfFlow = 5,
-        NoDevice = 6,
-        TimeOut = 102,
-    }
-
     public class OpenNI
     {
         public void Initialize()
         {
-            Native.OpenNI2.oniInitialize(2001); // version 2.1
+            OpenNI2.oniInitialize(2001); // version 2.1
         }
         public void Shutdown()
         {
-            Native.OpenNI2.oniShutdown();
+            OpenNI2.oniShutdown();
+        }
+
+        public IEnumerable<DeviceInfo> Devices
+        {
+            get
+            {
+                IntPtr list;
+                int listLength;
+                OpenNI2.oniGetDeviceList(out list, out listLength);
+
+                var result = new List<DeviceInfo>();
+
+                IntPtr tmp = list;
+                for (int i = 0; i < listLength; i++)
+                {
+                    OniDeviceInfo deviceInfo = (OniDeviceInfo)Marshal.PtrToStructure(tmp, typeof(OniDeviceInfo));
+                    result.Add(new DeviceInfo(deviceInfo));
+                    tmp += Marshal.SizeOf(deviceInfo);
+                }
+
+                OpenNI2.oniReleaseDeviceList(list);
+                return result;
+            }
         }
     }
 }

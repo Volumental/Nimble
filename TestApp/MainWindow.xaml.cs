@@ -25,5 +25,12 @@ namespace TestApp
         {
             _openni.Shutdown();
         }
+
+        private void ListButtonClicked(object sender, System.EventArgs e)
+        {
+            var devies = _openni.Devices;
+            foreach (var d in devies)
+                System.Console.WriteLine(d.Name);
+        }
     }
 }

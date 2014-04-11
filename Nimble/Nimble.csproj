@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceInfo.cs" />
     <Compile Include="OpenNI.cs" />
     <Compile Include="Native\OpenNI2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
