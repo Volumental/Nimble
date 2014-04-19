@@ -1,4 +1,6 @@
 ﻿using Nimble;
+using System;
+using System.Linq;
 using System.Windows;
 
 namespace TestApp
@@ -21,16 +23,23 @@ namespace TestApp
             _openni.Initialize();
         }
 
-        private void Window_Closed(object sender, System.EventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
         {
             _openni.Shutdown();
         }
-
-        private void ListButtonClicked(object sender, System.EventArgs e)
+        
+        private void ListButtonClicked(object sender, EventArgs e)
         {
             var devies = _openni.Devices;
             foreach (var d in devies)
                 System.Console.WriteLine(d.Name);
+        }
+
+        private void OpenClicked(object sender, EventArgs e)
+        {
+            var deviceInfo = _openni.Devices.First();
+            var device = deviceInfo.Open();
+            device.Close();
         }
     }
 }

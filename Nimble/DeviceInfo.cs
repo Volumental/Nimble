@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Nimble
 {
     public class DeviceInfo
@@ -19,5 +20,12 @@ namespace Nimble
         }
 
         public string Name { get { return _name; } }
+        public string Uri { get { return _uri; } }
+
+        public Device Open()
+        {
+            return new Device(this);
+        }
+
     }
 }

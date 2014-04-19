@@ -33,6 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Device.cs" />
     <Compile Include="DeviceInfo.cs" />
     <Compile Include="Marshaller.cs" />
     <Compile Include="OpenNI.cs" />

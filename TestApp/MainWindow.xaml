@@ -4,6 +4,7 @@
         Title="MainWindow" Height="350" Width="525" 
         Loaded="Window_Loaded" Closed="Window_Closed">
     <StackPanel>
-        <Button Margin="16" Click="ListButtonClicked">List</Button>        
+        <Button Margin="16" Click="ListButtonClicked">List</Button>
+        <Button Margin="16" Click="OpenClicked">Open</Button>
     </StackPanel>
 </Window>
