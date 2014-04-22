@@ -70,6 +70,12 @@ namespace Nimble.Native
         public static extern void oniStreamDestroy(IntPtr streamHandle);
 
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Status oniStreamStart(IntPtr streamHandle);
+        
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void oniStreamStop(IntPtr streamHandle);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Status oniStreamRegisterNewFrameCallback(IntPtr streamHandle, OniNewFrameCallback handler, IntPtr cookie, out IntPtr callbackHandle);
 
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
