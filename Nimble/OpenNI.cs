@@ -10,8 +10,10 @@ namespace Nimble
     {
         public void Initialize()
         {
-            OpenNI2.oniInitialize(2001); // version 2.1
+            var status = OpenNI2.oniInitialize(2001); // version 2.1
+            status.ThrowIfFailed();
         }
+
         public void Shutdown()
         {
             OpenNI2.oniShutdown();

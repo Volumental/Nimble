@@ -9,7 +9,8 @@ namespace Nimble
 
         internal VideoStream(Device device, OniSensorType sensorType)
         {
-            OpenNI2.oniDeviceCreateStream(device.Handle, sensorType, out _handle);
+            var status = OpenNI2.oniDeviceCreateStream(device.Handle, sensorType, out _handle);
+            status.ThrowIfFailed();
         }
 
         public void Close()

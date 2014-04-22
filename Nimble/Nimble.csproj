@@ -37,9 +37,11 @@
     <Compile Include="DeviceInfo.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Marshaller.cs" />
+    <Compile Include="NimbleException.cs" />
     <Compile Include="OpenNI.cs" />
     <Compile Include="Native\OpenNI2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatusExtensions.cs" />
     <Compile Include="VideoStream.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

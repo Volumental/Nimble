@@ -9,7 +9,8 @@ namespace Nimble
 
         internal Device(DeviceInfo deviceInfo)
         {
-            OpenNI2.oniDeviceOpen(deviceInfo.Uri, out _handle);
+            var status = OpenNI2.oniDeviceOpen(deviceInfo.Uri, out _handle);
+            status.ThrowIfFailed();
         }
 
         internal IntPtr Handle { get { return _handle; } }
@@ -26,7 +27,8 @@ namespace Nimble
 
         public void Close()
         {
-            OpenNI2.oniDeviceClose(_handle);
+            var status = OpenNI2.oniDeviceClose(_handle);
+            status.ThrowIfFailed();
         }
     }
 }
