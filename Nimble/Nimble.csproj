@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="Device.cs" />
     <Compile Include="DeviceInfo.cs" />
+    <Compile Include="Disposable.cs" />
     <Compile Include="Marshaller.cs" />
     <Compile Include="OpenNI.cs" />
     <Compile Include="Native\OpenNI2.cs" />
