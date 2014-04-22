@@ -1,7 +1,7 @@
 ﻿using Nimble.Native;
 using System;
 
-namespace Nimble
+namespace Nimble.Native
 {
     internal static class StatusExtensions
     {        

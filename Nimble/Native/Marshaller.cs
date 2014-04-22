@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Nimble
+namespace Nimble.Native
 {
     internal class Marshaller
     {
