@@ -39,6 +39,10 @@ namespace TestApp
         {
             var deviceInfo = _openni.Devices.First();
             var device = deviceInfo.Open();
+
+            var stream = device.OpenColorStream();
+            stream.Close();
+
             device.Close();
         }
     }

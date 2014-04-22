@@ -31,6 +31,13 @@ namespace Nimble.Native
         public ushort usbProductId;
     }
 
+    internal enum OniSensorType
+    {
+	    ONI_SENSOR_IR = 1,
+	    ONI_SENSOR_COLOR = 2,
+	    ONI_SENSOR_DEPTH = 3,
+    };
+
     internal class OpenNI2
     {
         // Library functions
@@ -52,5 +59,11 @@ namespace Nimble.Native
         
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Status oniDeviceClose(IntPtr deviceHandle);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Status oniDeviceCreateStream(IntPtr deviceHandle, OniSensorType sensorType, out IntPtr streamHandle);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void oniStreamDestroy(IntPtr streamHandle);
     }
 }
