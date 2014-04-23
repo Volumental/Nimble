@@ -101,6 +101,9 @@ namespace Nimble.Native
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern void oniReleaseDeviceList(IntPtr list);
 
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr oniGetExtendedError();
+
         // Device functions
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Status oniDeviceOpen(string uri, out IntPtr deviceHandle);
