@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace TestApp
 {
@@ -11,10 +13,13 @@ namespace TestApp
     public partial class MainWindow : Window
     {
         private OpenNI _openni;
+        private WriteableBitmap _bitmap;
 
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            _bitmap = new WriteableBitmap(640, 480, 72, 72, PixelFormats.Rgb24, null);
+            _image.Source = _bitmap;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -41,6 +46,13 @@ namespace TestApp
             var device = deviceInfo.Open();
 
             var stream = device.OpenColorStream();
+            stream.Start();
+            for (int i = 0; i < 10; i++)
+            {
+                var frame = stream.ReadFrame();
+                frame.Update(_bitmap);
+            }
+            stream.Stop();
             stream.Close();
 
             device.Close();

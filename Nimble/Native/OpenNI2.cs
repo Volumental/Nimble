@@ -36,7 +36,53 @@ namespace Nimble.Native
 	    ONI_SENSOR_IR = 1,
 	    ONI_SENSOR_COLOR = 2,
 	    ONI_SENSOR_DEPTH = 3,
-    };
+    }
+
+    internal enum OniPixelFormat
+    {
+	    // Depth
+	    ONI_PIXEL_FORMAT_DEPTH_1_MM = 100,
+	    ONI_PIXEL_FORMAT_DEPTH_100_UM = 101,
+	    ONI_PIXEL_FORMAT_SHIFT_9_2 = 102,
+	    ONI_PIXEL_FORMAT_SHIFT_9_3 = 103,
+
+	    // Color
+	    ONI_PIXEL_FORMAT_RGB888 = 200,
+	    ONI_PIXEL_FORMAT_YUV422 = 201,
+	    ONI_PIXEL_FORMAT_GRAY8 = 202,
+	    ONI_PIXEL_FORMAT_GRAY16 = 203,
+	    ONI_PIXEL_FORMAT_JPEG = 204,
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct OniVideoMode
+    {
+        public OniPixelFormat pixelFormat;
+        public int resolutionX;
+        public int resolutionY;
+        public int fps;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct OniFrame
+    {
+        public int dataSize;
+        public IntPtr data; // unmanaged pointer to data
+
+        public OniSensorType sensorType;
+        public ulong timestamp;
+        public int frameIndex;
+
+        public int width;
+        public int height;
+
+        public OniVideoMode videoMode;
+        public bool croppingEnabled; // must be 32-bits wide
+        public int cropOriginX;
+        public int cropOriginY;
+
+        public int stride;
+    }
 
     internal delegate void OniNewFrameCallback(IntPtr streamHandle, IntPtr cookie);
 
@@ -81,5 +127,7 @@ namespace Nimble.Native
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern void oniStreamUnregisterNewFrameCallback(IntPtr streamHandle, IntPtr callbackHandle);
 
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Status oniStreamReadFrame(IntPtr streamHandle, out IntPtr framePointer);
     }
 }

@@ -6,5 +6,6 @@
     <StackPanel>
         <Button Margin="16" Click="ListButtonClicked">List</Button>
         <Button Margin="16" Click="OpenClicked">Open</Button>
+        <Image x:Name="_image" Width="160" Height="120" />
     </StackPanel>
 </Window>
