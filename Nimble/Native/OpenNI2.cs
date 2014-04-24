@@ -88,7 +88,16 @@ namespace Nimble.Native
 
     internal class OpenNI2
     {
-        // Library functions
+
+        // http://www.network-science.de/ascii/  font: "doom"
+        //         _     _ _                             __                  _   _                 
+        //        | |   (_) |                           / _|                | | (_)                
+        //        | |    _| |__  _ __ __ _ _ __ _   _  | |_ _   _ _ __   ___| |_ _  ___  _ __  ___ 
+        //        | |   | | '_ \| '__/ _` | '__| | | | |  _| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+        //        | |___| | |_) | | | (_| | |  | |_| | | | | |_| | | | | (__| |_| | (_) | | | \__ \
+        //        \_____/_|_.__/|_|  \__,_|_|   \__, | |_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
+        //                                       __/ |                                             
+        //                                      |___/            
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Status oniInitialize(int version);
 
@@ -104,14 +113,25 @@ namespace Nimble.Native
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr oniGetExtendedError();
 
-        // Device functions
+
+        //        ______           _             __                  _   _                 
+        //        |  _  \         (_)           / _|                | | (_)                
+        //        | | | |_____   ___  ___ ___  | |_ _   _ _ __   ___| |_ _  ___  _ __  ___ 
+        //        | | | / _ \ \ / / |/ __/ _ \ |  _| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+        //        | |/ /  __/\ V /| | (_|  __/ | | | |_| | | | | (__| |_| | (_) | | | \__ \
+        //        |___/ \___| \_/ |_|\___\___| |_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Status oniDeviceOpen(string uri, out IntPtr deviceHandle);
         
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Status oniDeviceClose(IntPtr deviceHandle);
 
-        // Stream functions
+        //         _____ _                               __                  _   _                 
+        //        /  ___| |                             / _|                | | (_)                
+        //        \ `--.| |_ _ __ ___  __ _ _ __ ___   | |_ _   _ _ __   ___| |_ _  ___  _ __  ___ 
+        //         `--. \ __| '__/ _ \/ _` | '_ ` _ \  |  _| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+        //        /\__/ / |_| | |  __/ (_| | | | | | | | | | |_| | | | | (__| |_| | (_) | | | \__ \
+        //        \____/ \__|_|  \___|\__,_|_| |_| |_| |_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Status oniDeviceCreateStream(IntPtr deviceHandle, OniSensorType sensorType, out IntPtr streamHandle);
 
