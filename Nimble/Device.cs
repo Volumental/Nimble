@@ -30,5 +30,21 @@ namespace Nimble
             var status = OpenNI2.oniDeviceClose(_handle);
             status.ThrowIfFailed();
         }
+
+        public bool SyncColorAndDepth
+        {
+            set
+            {
+                if (value)
+                {
+                    var status = OpenNI2.oniDeviceEnableDepthColorSync(_handle);
+                    status.ThrowIfFailed();
+                }
+                else
+                {
+                    OpenNI2.oniDeviceDisableDepthColorSync(_handle);
+                }
+            }
+        }
     }
 }

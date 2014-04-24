@@ -125,6 +125,12 @@ namespace Nimble.Native
         
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Status oniDeviceClose(IntPtr deviceHandle);
+        
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Status oniDeviceEnableDepthColorSync(IntPtr deviceHandle);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void oniDeviceDisableDepthColorSync(IntPtr deviceHandle);
 
         //         _____ _                               __                  _   _                 
         //        /  ___| |                             / _|                | | (_)                
