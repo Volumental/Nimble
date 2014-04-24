@@ -8,7 +8,6 @@ namespace Nimble
     public class VideoStream
     {
         private readonly IntPtr _handle;
-        private WriteableBitmap _bitmap;
 
         internal VideoStream(Device device, OniSensorType sensorType)
         {
