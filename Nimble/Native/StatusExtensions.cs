@@ -9,7 +9,8 @@ namespace Nimble.Native
         internal static void ThrowIfFailed(this Status status)
         {
             if (status == Status.Ok) return;
-            var errorMessage = Marshal.PtrToStringAuto(OpenNI2.oniGetExtendedError());
+            //var errorMessage = Marshal.PtrToStringAuto(OpenNI2.oniGetExtendedError());
+            var errorMessage = Marshal.PtrToStringAnsi(OpenNI2.oniGetExtendedError());
             switch (status)
             {
                 case Status.Error: throw new NimbleException("Error: " + errorMessage);
