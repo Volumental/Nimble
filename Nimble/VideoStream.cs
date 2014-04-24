@@ -73,6 +73,8 @@ namespace Nimble
         public interface IStreamSettings
         {
             bool Mirroring { get; set; }
+            bool AutoWhiteBalance { get; set; }
+            bool AutoExposure { get; set; }
         }
 
         private abstract class StreamSettings : IStreamSettings
@@ -107,6 +109,16 @@ namespace Nimble
             {
                 get { return ReadProperty(7) != 0; }
                 set { WriteProperty(7, value ? 1 : 0); }
+            }
+            public bool AutoWhiteBalance
+            {
+                get { return ReadProperty(100) != 0; }
+                set { WriteProperty(100, value ? 1 : 0); }
+            }
+            public bool AutoExposure
+            {
+                get { return ReadProperty(101) != 0; }
+                set { WriteProperty(101, value ? 1 : 0); }
             }
         }
 
