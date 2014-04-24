@@ -5,7 +5,8 @@
         Loaded="Window_Loaded" Closed="Window_Closed">
     <StackPanel>
         <Button Margin="16" Click="ListButtonClicked">List</Button>
-        <Button Margin="16" Click="OpenClicked">Open</Button>
+        <Button Margin="16" Click="StartClicked">Start</Button>
+        <Button Margin="16" Click="StopClicked">Stop</Button>
         <Image x:Name="_image" Width="160" Height="120" />
     </StackPanel>
 </Window>

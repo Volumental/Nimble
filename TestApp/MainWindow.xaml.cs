@@ -13,7 +13,10 @@ namespace TestApp
     public partial class MainWindow : Window
     {
         private OpenNI _openni;
-        private WriteableBitmap _bitmap;
+        private readonly WriteableBitmap _bitmap;
+        
+        private Device _device;
+        private VideoStream _stream;
 
         public MainWindow()
         {
@@ -40,22 +43,28 @@ namespace TestApp
                 System.Console.WriteLine(d.Name);
         }
 
-        private void OpenClicked(object sender, EventArgs e)
+        private void StartClicked(object sender, EventArgs e)
         {
             var deviceInfo = _openni.Devices.First();
-            var device = deviceInfo.Open();
+            _device = deviceInfo.Open();
 
-            var stream = device.OpenColorStream();
-            stream.Start();
-            for (int i = 0; i < 10; i++)
-            {
-                var frame = stream.ReadFrame();
-                frame.Update(_bitmap);
-            }
-            stream.Stop();
-            stream.Close();
+            _stream = _device.OpenColorStream();
+            _stream.Start();
+            _stream.NewFrame += _stream_NewFrame;
+        }
 
-            device.Close();
+        private void _stream_NewFrame(VideoStream stream, Frame frame)
+        {
+            Dispatcher.Invoke(() => frame.Update(_bitmap));
+        }
+
+        private void StopClicked(object sender, EventArgs e)
+        {
+            _stream.NewFrame -= _stream_NewFrame;
+            _stream.Stop();
+            _stream.Close();
+
+            _device.Close();
         }
     }
 }
