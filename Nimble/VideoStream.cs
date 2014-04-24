@@ -103,22 +103,23 @@ namespace Nimble
                 return status;
             }
 
+            protected void WriteProperty(int propertyId, bool value) { WriteProperty(propertyId, value ? 1 : 0); }
             protected abstract void WriteProperty(int propertyId, int value);
 
             public bool Mirroring
             {
                 get { return ReadProperty(7) != 0; }
-                set { WriteProperty(7, value ? 1 : 0); }
+                set { WriteProperty(7, value); }
             }
             public bool AutoWhiteBalance
             {
                 get { return ReadProperty(100) != 0; }
-                set { WriteProperty(100, value ? 1 : 0); }
+                set { WriteProperty(100, value); }
             }
             public bool AutoExposure
             {
                 get { return ReadProperty(101) != 0; }
-                set { WriteProperty(101, value ? 1 : 0); }
+                set { WriteProperty(101, value); }
             }
         }
 
