@@ -49,6 +49,8 @@ namespace TestApp
             _device = deviceInfo.Open();
 
             _stream = _device.OpenColorStream();
+            _stream.Optional.Mirroring = _mirror.IsChecked.Value;
+
             _stream.Start();
             _stream.NewFrame += _stream_NewFrame;
         }
