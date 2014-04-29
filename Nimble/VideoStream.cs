@@ -1,7 +1,6 @@
 ﻿using Nimble.Native;
 using System;
 using System.Runtime.InteropServices;
-using System.Windows.Media.Imaging;
 
 namespace Nimble
 {
