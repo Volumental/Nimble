@@ -1,6 +1,5 @@
 ﻿using Nimble.Native;
 using System;
-using System.Windows;
 
 namespace Nimble
 {
