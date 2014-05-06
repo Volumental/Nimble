@@ -140,6 +140,17 @@ namespace Nimble
                 Handle(status);
             }
 
+            public T ReadProperty<T>(int propertyId) where T : struct
+            {
+                int n = Marshal.SizeOf(typeof(T));
+                IntPtr buffer = Marshal.AllocHGlobal(n);
+                var status = OpenNI2.oniStreamGetProperty(_outer._handle, propertyId, buffer, ref n);
+                T result = (T)Marshal.PtrToStructure(buffer, typeof(T));
+                Marshal.FreeHGlobal(buffer);
+                Handle(status);
+                return result;
+            }
+
             protected void WriteProperty(int propertyId, bool value) { WriteProperty(propertyId, value ? 1 : 0); }
             protected abstract void Handle(Status status);
 
@@ -200,10 +211,7 @@ namespace Nimble
 
         public VideoMode VideoMode
         {
-            //get
-            //{
-            //    throw new NotImplementedException("Not implemented");
-            //}
+            get { return ToVideoMode(_mandatory.ReadProperty<OniVideoMode>(3)); }
             set
             {
                 OniVideoMode videoMode = value.ToRaw();

@@ -50,6 +50,7 @@ namespace TestApp
 
             _stream = _device.OpenColorStream();
 
+            Console.WriteLine("before: " + _stream.VideoMode.Width);
             var vms = _stream.SupportedVideoModes;
             foreach (var videoMode in vms)
             {
