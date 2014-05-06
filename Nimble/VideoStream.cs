@@ -1,14 +1,42 @@
 ﻿using Nimble.Native;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace Nimble
 {
+    public class VideoMode
+    {
+        private readonly int _width;
+        private readonly int _height;
+        private readonly int _fps;
+        private PixelFormat _pixelFormat;
+        
+        public VideoMode(int width, int height, int fps, PixelFormat pixelFormat)
+        {
+            _width = width;
+            _height = height;
+            _fps = fps;
+            _pixelFormat = pixelFormat;
+        }
+
+        public int Width { get { return _width; } }
+        public int Height { get { return _height; } }
+        public int Fps { get { return _fps; } }
+        public PixelFormat PixelFormat { get { return _pixelFormat; } }
+
+        internal OniVideoMode ToRaw()
+        {
+            return new OniVideoMode() { resolutionX = _width, resolutionY = _height, fps = _fps, pixelFormat = _pixelFormat.ToRaw() };
+        }
+    }
+
     public class VideoStream
     {
-        private readonly IntPtr _handle;        
-        private readonly StreamSettings _optional;
-        private readonly StreamSettings _mandatory;
+        private readonly IntPtr _handle;
+        private readonly OptionalStreamSettings _optional;
+        private readonly MandatoryStreamSettings _mandatory;
         private readonly OniNewFrameCallback _callback;
         private IntPtr _callbackHandle;
         private int _subscribers = 0;
@@ -81,67 +109,107 @@ namespace Nimble
             private readonly VideoStream _outer;
             protected StreamSettings(VideoStream outer) { _outer = outer; }
             
-            protected int ReadProperty(int propertyId)
+            protected int ReadIntProperty(int propertyId)
             {
                 int n = sizeof(int);
                 IntPtr buffer = Marshal.AllocHGlobal(n);
-                var status = OpenNI2.oniStreamGetProperty(_outer._handle, 7, buffer, ref n);
+                var status = OpenNI2.oniStreamGetProperty(_outer._handle, propertyId, buffer, ref n);
                 int result = Marshal.ReadInt32(buffer);
                 Marshal.FreeHGlobal(buffer);
-                status.ThrowIfFailed();
+                Handle(status);
                 return result;
             }
 
-            protected Status WritePropertyRaw(int propertyId, int value)
+            protected void WritePropertyRaw(int propertyId, int value)
             {
                 int n = sizeof(int);
                 IntPtr buffer = Marshal.AllocHGlobal(n);
                 Marshal.WriteInt32(buffer, value);
-                var status = OpenNI2.oniStreamSetProperty(_outer._handle, 7, buffer, n);
+                var status = OpenNI2.oniStreamSetProperty(_outer._handle, propertyId, buffer, n);
                 Marshal.FreeHGlobal(buffer);
-                return status;
+                Handle(status);
+            }
+
+            public void WriteProperty<T>(int propertyId, T s) where T: struct
+            {
+                int n = Marshal.SizeOf(s);
+                IntPtr buffer = Marshal.AllocHGlobal(n);
+                Marshal.StructureToPtr(s, buffer, false);
+                var status = OpenNI2.oniStreamSetProperty(_outer._handle, propertyId, buffer, n);
+                Marshal.FreeHGlobal(buffer);
+                Handle(status);
             }
 
             protected void WriteProperty(int propertyId, bool value) { WriteProperty(propertyId, value ? 1 : 0); }
-            protected abstract void WriteProperty(int propertyId, int value);
+            protected abstract void Handle(Status status);
 
             public bool Mirroring
             {
-                get { return ReadProperty(7) != 0; }
+                get { return ReadIntProperty(7) != 0; }
                 set { WriteProperty(7, value); }
             }
             public bool AutoWhiteBalance
             {
-                get { return ReadProperty(100) != 0; }
+                get { return ReadIntProperty(100) != 0; }
                 set { WriteProperty(100, value); }
             }
             public bool AutoExposure
             {
-                get { return ReadProperty(101) != 0; }
+                get { return ReadIntProperty(101) != 0; }
                 set { WriteProperty(101, value); }
             }
         }
 
         private class OptionalStreamSettings: StreamSettings {
             public OptionalStreamSettings(VideoStream outer) : base(outer) { }
-            protected override void WriteProperty(int propertyId, int value)
+            protected override void Handle(Status status)
             {
-                var status = WritePropertyRaw(propertyId, value);
-                if (status != Status.NotSupported) status.ThrowIfFailed();
+                if (status == Status.NotSupported) return;
+                status.ThrowIfFailed();
             }
         }
 
         private class MandatoryStreamSettings : StreamSettings
         {
             public MandatoryStreamSettings(VideoStream outer) : base(outer) { }
-            protected override void WriteProperty(int propertyId, int value)
+            protected override void Handle(Status status)
             {
-                WritePropertyRaw(propertyId, value).ThrowIfFailed();
+                status.ThrowIfFailed();
             }
         }
 
         public IStreamSettings Optional { get { return _optional; } }
         public IStreamSettings Mandatory { get { return _mandatory; } }
+
+        private VideoMode ToVideoMode(OniVideoMode videoMode)
+        {
+            return new VideoMode(videoMode.resolutionX, videoMode.resolutionY, videoMode.fps, videoMode.pixelFormat.ToNimblePixelFormat());
+        }
+
+        public IEnumerable<VideoMode> SupportedVideoModes
+        {
+            get
+            {
+                IntPtr rawSensorInfo = OpenNI2.oniStreamGetSensorInfo(_handle);
+                OniSensorInfo sensorInfo = (OniSensorInfo)Marshal.PtrToStructure(rawSensorInfo, typeof(OniSensorInfo));
+                return 
+                    Marshaller.EnumerateStructArray<OniVideoMode>(sensorInfo.pSupportedVideoModes, sensorInfo.numSupportedVideoModes).
+                    Select(ToVideoMode).ToList();
+            }
+        }
+
+        public VideoMode VideoMode
+        {
+            //get
+            //{
+            //    throw new NotImplementedException("Not implemented");
+            //}
+            set
+            {
+                OniVideoMode videoMode = value.ToRaw();
+                _mandatory.WriteProperty(3, videoMode);
+            }
+        }
 
         public void Stop()
         {

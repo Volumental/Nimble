@@ -12,4 +12,17 @@
         Gray16 = 203,
         Jpeg = 204
     }
+
+    internal static class PixelFormatExtensions
+    {
+        public static PixelFormat ToNimblePixelFormat(this Native.OniPixelFormat pixelFormat)
+        {
+            return (PixelFormat)((int)pixelFormat);
+        }
+
+        public static Native.OniPixelFormat ToRaw(this PixelFormat pixelFormat)
+        {
+            return (Native.OniPixelFormat)((int)pixelFormat);
+        }
+    }
 }

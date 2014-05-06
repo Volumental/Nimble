@@ -31,7 +31,7 @@ namespace Nimble
             public int Stride { get { return _frame._raw.stride; } }
             public PixelFormat Format
             {
-                get { return (PixelFormat)((int)_frame._raw.videoMode.pixelFormat); }
+                get { return _frame._raw.videoMode.pixelFormat.ToNimblePixelFormat(); }
             }
 
             public void Dispose()

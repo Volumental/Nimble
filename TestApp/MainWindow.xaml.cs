@@ -49,6 +49,15 @@ namespace TestApp
             _device = deviceInfo.Open();
 
             _stream = _device.OpenColorStream();
+
+            var vms = _stream.SupportedVideoModes;
+            foreach (var videoMode in vms)
+            {
+                Console.WriteLine("width: " + videoMode.Width + ", height: " + videoMode.Height);
+            }
+            var vm = vms.First(x => x.PixelFormat == Nimble.PixelFormat.Rgb888 && x.Width == 640);
+            _stream.VideoMode = vm;
+
             _stream.Optional.Mirroring = _mirror.IsChecked.Value;
 
             _stream.Start();

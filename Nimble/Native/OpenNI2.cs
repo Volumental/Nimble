@@ -84,6 +84,14 @@ namespace Nimble.Native
         public int stride;
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct OniSensorInfo
+    {
+        public OniSensorType sensorType;
+        public int numSupportedVideoModes;
+        public IntPtr pSupportedVideoModes; // OniVideoMode
+    }
+
     internal delegate void OniNewFrameCallback(IntPtr streamHandle, IntPtr cookie);
 
     internal class OpenNI2
@@ -149,6 +157,9 @@ namespace Nimble.Native
         
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern void oniStreamStop(IntPtr streamHandle);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr oniStreamGetSensorInfo(IntPtr streamHandle);
 
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Status oniStreamRegisterNewFrameCallback(IntPtr streamHandle, OniNewFrameCallback handler, IntPtr cookie, out IntPtr callbackHandle);
