@@ -36,19 +36,19 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Device.cs" />
-    <Compile Include="DeviceInfo.cs" />
-    <Compile Include="Disposable.cs" />
-    <Compile Include="Frame.cs" />
-    <Compile Include="Native\Marshaller.cs" />
-    <Compile Include="NimbleException.cs" />
-    <Compile Include="OpenNI.cs" />
-    <Compile Include="Native\OpenNI2.cs" />
-    <Compile Include="PixelFormat.cs" />
+    <Compile Include="Source\Device.cs" />
+    <Compile Include="Source\DeviceInfo.cs" />
+    <Compile Include="Source\Disposable.cs" />
+    <Compile Include="Source\Frame.cs" />
+    <Compile Include="Source\Native\Marshaller.cs" />
+    <Compile Include="Source\NimbleException.cs" />
+    <Compile Include="Source\OpenNI.cs" />
+    <Compile Include="Source\Native\OpenNI2.cs" />
+    <Compile Include="Source\PixelFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Native\StatusExtensions.cs" />
-    <Compile Include="VideoMode.cs" />
-    <Compile Include="VideoStream.cs" />
+    <Compile Include="Source\Native\StatusExtensions.cs" />
+    <Compile Include="Source\VideoMode.cs" />
+    <Compile Include="Source\VideoStream.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
