@@ -1,5 +1,6 @@
 ﻿using Nimble.Native;
 using System;
+using System.Runtime.InteropServices;
 
 namespace Nimble
 {
@@ -51,9 +52,31 @@ namespace Nimble
             }
         }
 
-        public IProperties Properties
+        private void WriteProperty<T>(int propertyId, T s) where T : struct
         {
-            get { return null; }
+            int n = Marshal.SizeOf(s);
+            IntPtr buffer = Marshal.AllocHGlobal(n);
+            Marshal.StructureToPtr(s, buffer, false);
+            var status = OpenNI2.oniDeviceSetProperty(_handle, propertyId, buffer, n);
+            Marshal.FreeHGlobal(buffer);
+            status.ThrowIfFailed();
+        }
+
+        private T ReadProperty<T>(int propertyId) where T : struct
+        {
+            int n = Marshal.SizeOf(typeof(T));
+            IntPtr buffer = Marshal.AllocHGlobal(n);
+            var status = OpenNI2.oniDeviceGetProperty(_handle, propertyId, buffer, ref n);
+            T result = (T)Marshal.PtrToStructure(buffer, typeof(T));
+            Marshal.FreeHGlobal(buffer);
+            status.ThrowIfFailed();
+            return result;
+        }
+
+        public ImageRegistrationMode ImageRegistration
+        {
+            get { return ReadProperty<ImageRegistrationMode>(5); }
+            set { WriteProperty<ImageRegistrationMode>(5, value); }
         }
     }
 }

@@ -104,6 +104,12 @@ namespace Nimble.Native
         public OniDeviceInfoCallback DeviceStateChanged;
     }
 
+    public enum ImageRegistrationMode: uint
+    {
+    	None = 0,
+        DepthToColor = 1
+    }
+
     internal class OpenNI2
     {
 
@@ -155,6 +161,17 @@ namespace Nimble.Native
 
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern void oniDeviceDisableDepthColorSync(IntPtr deviceHandle);
+
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern  Status oniDeviceSetProperty(IntPtr deviceHandle, int propertyId, IntPtr data, int dataSize);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern  Status oniDeviceGetProperty(IntPtr deviceHandle, int propertyId, IntPtr data, ref int dataSize);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool oniDeviceIsPropertySupported(IntPtr deviceHandle, int propertyId);
+
 
         //         _____ _                               __                  _   _                 
         //        /  ___| |                             / _|                | | (_)                
