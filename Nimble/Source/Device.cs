@@ -6,12 +6,16 @@ namespace Nimble
     public class Device
     {
         private readonly IntPtr _handle;
+        private readonly DeviceInfo _deviceInfo;
 
         internal Device(DeviceInfo deviceInfo)
         {
             var status = OpenNI2.oniDeviceOpen(deviceInfo.Uri, out _handle);
             status.ThrowIfFailed();
+            _deviceInfo = deviceInfo;
         }
+
+        public DeviceInfo DeviceInfo { get { return _deviceInfo; } }
 
         internal IntPtr Handle { get { return _handle; } }
 
@@ -45,6 +49,11 @@ namespace Nimble
                     OpenNI2.oniDeviceDisableDepthColorSync(_handle);
                 }
             }
+        }
+
+        public IProperties Properties
+        {
+            get { return null; }
         }
     }
 }
