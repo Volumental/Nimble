@@ -214,5 +214,12 @@ namespace Nimble.Native
         /** Check if the property is supported the stream. Use the properties listed in OniTypes.h: ONI_STREAM_PROPERTY_..., or specific ones supplied by the device for its streams. */
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool oniStreamIsPropertySupported(IntPtr streamHandle, int propertyId);
+
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void oniFrameAddRef(IntPtr framePointer);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void oniFrameRelease(IntPtr framePointer);
     }
 }

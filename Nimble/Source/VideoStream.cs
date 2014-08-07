@@ -29,7 +29,7 @@ namespace Nimble
         private void NewFrameCallback(IntPtr streamHandle, IntPtr cookie)
         {
             var tmp = _onNewFrame;
-            var frame = ReadFrame();
+            using (var frame = ReadFrame())
             if (tmp != null) tmp(this, frame);
         }
 
@@ -67,8 +67,7 @@ namespace Nimble
             IntPtr framePointer = IntPtr.Zero;
             var status = OpenNI2.oniStreamReadFrame(_handle, out framePointer);
             status.ThrowIfFailed();
-            var frame = (OniFrame)Marshal.PtrToStructure(framePointer, typeof(OniFrame));
-            return Frame.From(frame);
+            return Frame.From(framePointer);
         }
 
         public interface IStreamSettings

@@ -23,13 +23,14 @@ namespace TestApp
             }
         }
 
-        public static void Update(this Frame frame, WriteableBitmap bitmap)
+        public static void UpdateAndDispose(this Frame frame, WriteableBitmap bitmap)
         {
             var rect = new Int32Rect(0, 0, frame.Width, frame.Height);
             using (var pixels = frame.LockPixels())
             {
                 bitmap.WritePixels(rect, pixels.Data, pixels.DataSize, pixels.Stride);
             }
+            frame.Dispose();
         }
 
         private static System.Windows.Media.PixelFormat GetPixelFormatFor(Nimble.Frame.Pixels pixels)

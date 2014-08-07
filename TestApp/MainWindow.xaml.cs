@@ -27,7 +27,7 @@ namespace TestApp
             _bitmap = new WriteableBitmap(640, 480, 72, 72, PixelFormats.Rgb24, null);
             _rgbImage.Source = _bitmap;
 
-            _depthBitmap = new WriteableBitmap(640, 480, 72, 72, PixelFormats.Gray16, null);
+            _depthBitmap = new WriteableBitmap(320, 240, 72, 72, PixelFormats.Gray16, null);
             _depthImage.Source = _depthBitmap;
         }
 
@@ -67,36 +67,39 @@ namespace TestApp
 
             _stream.Optional.Mirroring = _mirror.IsChecked.Value;
 
+            GC.WaitForFullGCComplete();
+
             _stream.Start();
             _stream.NewFrame += _stream_NewFrame;
 
             // open depth stream
-            //_depthStream = _device.OpenDepthStream();
-            //_depthStream.Optional.Mirroring = _mirror.IsChecked.Value;
-            //_depthStream.Start();
-            //_depthStream.NewFrame += _stream_NewDepthFrame;
+            _depthStream = _device.OpenDepthStream();
+            _depthStream.Optional.Mirroring = _mirror.IsChecked.Value;
+            _depthStream.Start();
+            _depthStream.NewFrame += _stream_NewDepthFrame;
 
-            //_device.ImageRegistration = _register.IsChecked.Value ? ImageRegistrationMode.DepthToColor : ImageRegistrationMode.None;
+            _device.ImageRegistration = _register.IsChecked.Value ? ImageRegistrationMode.DepthToColor : ImageRegistrationMode.None;
+            
         }
 
         private void _stream_NewFrame(VideoStream stream, Frame frame)
         {
-            Dispatcher.BeginInvoke(new Action(() => frame.Update(_bitmap)));
+            Dispatcher.Invoke(new Action(() => frame.UpdateAndDispose(_bitmap)));
         }
 
         private void _stream_NewDepthFrame(VideoStream stream, Frame frame)
         {
-            Dispatcher.BeginInvoke(new Action(() => frame.Update(_depthBitmap)));
+            Dispatcher.Invoke(new Action(() => frame.UpdateAndDispose(_depthBitmap)));
         }
 
         private void StopClicked(object sender, EventArgs e)
-        {
-            _stream.NewFrame -= _stream_NewFrame;
+        {   
             _stream.Stop();
+            _stream.NewFrame -= _stream_NewFrame;
             _stream.Close();
 
-            _depthStream.NewFrame -= _stream_NewDepthFrame;
             _depthStream.Stop();
+            _depthStream.NewFrame -= _stream_NewDepthFrame;
             _depthStream.Close();
 
             _device.Close();

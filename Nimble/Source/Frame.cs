@@ -1,24 +1,27 @@
 ﻿using Nimble.Native;
 using System;
+using System.Runtime.InteropServices;
 
 namespace Nimble
 {
-
-    public class Frame
+    public class Frame: IDisposable
     {
+        private readonly IntPtr _framePointer;
         private readonly OniFrame _raw;
+        private bool _disposed;
 
-        private Frame(OniFrame frame)
+        private Frame(IntPtr framePointer)
         {
-            _raw = frame;
+            _raw = (OniFrame)Marshal.PtrToStructure(framePointer, typeof(OniFrame));
+            _framePointer = framePointer;
         }
 
         public int Width { get { return _raw.width; } }
         public int Height { get { return _raw.height; } }
         
-        internal static Frame From(OniFrame frame)
+        internal static Frame From(IntPtr framePointer)
         {
-            return new Frame(frame);
+            return new Frame(framePointer);
         }
 
         public class Pixels : IDisposable
@@ -43,6 +46,26 @@ namespace Nimble
         public Pixels LockPixels()
         {
             return new Pixels(this);
+        }
+
+        public void Dispose()
+        {
+            Free();
+            GC.SuppressFinalize(this);
+        }
+
+        ~Frame()
+        {
+            Free();
+        }
+
+        private void Free()
+        {
+            if (!_disposed)
+            {
+                OpenNI2.oniFrameRelease(_framePointer);
+                _disposed = true;
+            }
         }
     }
 }
