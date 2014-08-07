@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Nimble</id>
+    <version>$version$</version>
+    <title>Nimble</title>
+    <authors>Volumental AB</authors>
+    <owners>Volumental AB</owners>
+    <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.txt</licenseUrl>
+    <projectUrl>https://www.volumental.com</projectUrl>
+    <!-- <iconUrl>https://volumental-django-static.s3.amazonaws.com/img/favicons/favicon-57.png</iconUrl> -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Enables .NET applications to use OpenNI devices such as the Kinect</description>
+    <copyright>Copyright Volumental AB 2014</copyright>
+    <dependencies>
+      <dependency id="Baseclass.Contrib.Nuget.Output" version="1.0.4" />
+    </dependencies>
+  </metadata>
+
+  <files>
+    <file src="bin/$configuration$/Nimble.dll" target="lib/net40/" />
+
+    <file src="bin/$configuration$/OpenNI.ini" target="Output/" />
+    <file src="bin/$configuration$/OpenNI2.dll" target="Output/" />
+    <file src="bin/$configuration$/PS1080.ini" target="Output/" />
+
+    <file src="bin/$configuration$/OpenNI2/Drivers/Kinect.dll" target="Output/OpenNI2/Drivers/" />
+    <file src="bin/$configuration$/OpenNI2/Drivers/OniFile.dll" target="Output/OpenNI2/Drivers/" />
+    <file src="bin/$configuration$/OpenNI2/Drivers/PS1080.dll" target="Output/OpenNI2/Drivers/" />
+
+  </files>
+
+</package>
