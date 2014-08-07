@@ -94,6 +94,16 @@ namespace Nimble.Native
 
     internal delegate void OniNewFrameCallback(IntPtr streamHandle, IntPtr cookie);
 
+    internal delegate void OniDeviceInfoCallback(ref OniDeviceInfo deviceInfo, IntPtr cookie);
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal class OniDeviceCallbacks
+    {
+    	public OniDeviceInfoCallback DeviceConnected;
+        public OniDeviceInfoCallback DeviceDisconnected;
+        public OniDeviceInfoCallback DeviceStateChanged;
+    }
+
     internal class OpenNI2
     {
 
@@ -117,6 +127,12 @@ namespace Nimble.Native
 
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern void oniReleaseDeviceList(IntPtr list);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Status oniRegisterDeviceCallbacks(OniDeviceCallbacks pCallbacks, IntPtr pCookie, out IntPtr deviceCallbackHandle);
+
+        [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void oniUnregisterDeviceCallbacks(IntPtr deviceCallbackHandle);
 
         [DllImport("OpenNI2", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr oniGetExtendedError();
