@@ -104,7 +104,7 @@ namespace Nimble.Native
         public OniDeviceInfoCallback DeviceStateChanged;
     }
 
-    public enum ImageRegistrationMode: uint
+    public enum ImageRegistrationMode: int
     {
     	None = 0,
         DepthToColor = 1

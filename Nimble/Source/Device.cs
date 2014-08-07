@@ -52,22 +52,22 @@ namespace Nimble
             }
         }
 
-        private void WriteProperty<T>(int propertyId, T s) where T : struct
+        private void WriteProperty(int propertyId, int s) 
         {
-            int n = Marshal.SizeOf(s);
+            int n = Marshal.SizeOf(typeof(int));
             IntPtr buffer = Marshal.AllocHGlobal(n);
-            Marshal.StructureToPtr(s, buffer, false);
+            Marshal.WriteInt32(buffer, s);
             var status = OpenNI2.oniDeviceSetProperty(_handle, propertyId, buffer, n);
             Marshal.FreeHGlobal(buffer);
             status.ThrowIfFailed();
         }
 
-        private T ReadProperty<T>(int propertyId) where T : struct
+        private int ReadIntProperty(int propertyId)
         {
-            int n = Marshal.SizeOf(typeof(T));
+            int n = Marshal.SizeOf(typeof(int));
             IntPtr buffer = Marshal.AllocHGlobal(n);
             var status = OpenNI2.oniDeviceGetProperty(_handle, propertyId, buffer, ref n);
-            T result = (T)Marshal.PtrToStructure(buffer, typeof(T));
+            var result = Marshal.ReadInt32(buffer);
             Marshal.FreeHGlobal(buffer);
             status.ThrowIfFailed();
             return result;
@@ -75,8 +75,8 @@ namespace Nimble
 
         public ImageRegistrationMode ImageRegistration
         {
-            get { return ReadProperty<ImageRegistrationMode>(5); }
-            set { WriteProperty<ImageRegistrationMode>(5, value); }
+            get { return (ImageRegistrationMode)ReadIntProperty(5); }
+            set { WriteProperty(5, (int)value); }
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Nimble
 
         public void Shutdown()
         {
-            if (_initialized) throw new NimbleException("OpenNI not initalized");
+            if (!_initialized) throw new NimbleException("OpenNI not initalized");
             OpenNI2.oniUnregisterDeviceCallbacks(_callbacksHandle);
             OpenNI2.oniShutdown();
             _initialized = false;
