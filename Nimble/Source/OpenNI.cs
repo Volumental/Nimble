@@ -12,6 +12,8 @@ namespace Nimble
         private readonly OniDeviceCallbacks _callbacks;
         private IntPtr _callbacksHandle;
 
+        private static bool _initialized;
+
         public event DeviceInfoCallback DeviceConnected;
         public event DeviceInfoCallback DeviceDisconnected;
 
@@ -25,16 +27,21 @@ namespace Nimble
 
         public void Initialize()
         {
+            if (_initialized) throw new NimbleException("OpenNI already initalized");
             var status = OpenNI2.oniInitialize(2001); // version 2.1
             status.ThrowIfFailed();
 
             OpenNI2.oniRegisterDeviceCallbacks(_callbacks, IntPtr.Zero, out _callbacksHandle).ThrowIfFailed();
+            
+            _initialized = true;
         }
 
         public void Shutdown()
         {
+            if (_initialized) throw new NimbleException("OpenNI not initalized");
             OpenNI2.oniUnregisterDeviceCallbacks(_callbacksHandle);
             OpenNI2.oniShutdown();
+            _initialized = false;
         }
 
         public IEnumerable<DeviceInfo> Devices
