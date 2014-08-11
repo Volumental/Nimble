@@ -74,12 +74,12 @@ namespace TestApp
 
             // open depth stream
             _depthStream = _device.OpenDepthStream();
+            _depthStream.VideoMode = _depthStream.SupportedVideoModes.First(x => x.PixelFormat == Nimble.PixelFormat.Depth_1mm && x.Width == 320);
             _depthStream.Optional.Mirroring = _mirror.IsChecked.Value;
             _depthStream.Start();
             _depthStream.NewFrame += _stream_NewDepthFrame;
 
             _device.ImageRegistration = _register.IsChecked.Value ? ImageRegistrationMode.DepthToColor : ImageRegistrationMode.None;
-            
         }
 
         private void _stream_NewFrame(VideoStream stream, Frame frame)
@@ -93,13 +93,14 @@ namespace TestApp
         }
 
         private void StopClicked(object sender, EventArgs e)
-        {   
-            _stream.Stop();
+        {
             _stream.NewFrame -= _stream_NewFrame;
-            _stream.Close();
+            //_stream.Stop();
 
-            _depthStream.Stop();
             _depthStream.NewFrame -= _stream_NewDepthFrame;
+            //_depthStream.Stop();
+
+            _stream.Close();
             _depthStream.Close();
 
             _device.Close();

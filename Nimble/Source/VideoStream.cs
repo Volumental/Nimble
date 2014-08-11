@@ -192,6 +192,8 @@ namespace Nimble
             }
         }
 
+
+        // TODO: Bug in OpenNI 2.1 causes the close call to hang if stop was previously called.
         public void Stop()
         {
             OpenNI2.oniStreamStop(_handle);
