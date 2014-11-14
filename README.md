@@ -7,5 +7,4 @@ To build the test app OpenNI2 need to be installed and the `OPENNI2_REDIST` envi
 
 Only Visual Studio 2012 or later is needed to build the *Nimble* wrapper itself.
 
-### Note ###
-There are no Volumental specific code in this repository, but rather it only mimics the OpenNI2 API very closely. Thus it's suitable for Open Source.
+Also builds fine with Mono. Very helpful as the OpenNI2 is available on Mac and Linux.
