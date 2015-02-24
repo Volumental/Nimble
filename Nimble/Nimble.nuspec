@@ -8,12 +8,12 @@
     <owners>Volumental AB</owners>
     <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.txt</licenseUrl>
     <projectUrl>https://www.volumental.com</projectUrl>
-    <!-- <iconUrl>https://volumental-django-static.s3.amazonaws.com/img/favicons/favicon-57.png</iconUrl> -->
+    <iconUrl>https://s3-eu-west-1.amazonaws.com/volumental-public-downloads/images/logos/VolumentalNugetLogo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Enables .NET applications to use OpenNI devices such as the Kinect</description>
     <copyright>Copyright Volumental AB 2014</copyright>
     <dependencies>
-      <dependency id="Baseclass.Contrib.Nuget.Output" version="1.0.4" />
+      <dependency id="Baseclass.Contrib.Nuget.Output" version="1.0.7" />
     </dependencies>
   </metadata>
 

@@ -51,6 +51,7 @@
     <Compile Include="Source\VideoStream.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Nimble.nuspec" />
     <None Include="OpenNI.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
